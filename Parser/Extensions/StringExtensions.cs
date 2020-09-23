@@ -25,7 +25,25 @@ namespace CepgpParser.Parser.Extensions
             int result;
             bool success = int.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
             if (!success)
-                throw new ArgumentException($"Was not able to convert '{value}' to integer");
+                throw new ArgumentException($"Not able to convert '{value}' to integer");
+
+            return result;
+        }
+
+        public static bool IsLong(this string value)
+        {
+            if (value.IsNullOrEmpty())
+                return false;
+
+            return long.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out long _);
+        }
+
+        public static long ToLong(this string value)
+        {
+            long result;
+            bool success = long.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
+            if (!success)
+                throw new ArgumentException($"Not able to convert '{value}' to integer");
 
             return result;
         }
@@ -41,6 +59,17 @@ namespace CepgpParser.Parser.Extensions
         public static DateTime ToDateTime(this string value, string format)
         {
             return DateTime.ParseExact(value, format, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Source: https://stackoverflow.com/a/17252672
+        /// </summary>
+        public static string Between(this string value, string from, string to)
+        {
+            int pFrom = value.IndexOf(from) + from.Length;
+            int pTo = value.LastIndexOf(to);
+
+            return value.Substring(pFrom, pTo - pFrom);
         }
     }
 }

@@ -10,8 +10,9 @@ namespace CepgpParser.Parser
 {
     public class CepgpParser
     {
-        //public List<CepgpParserLog> Logs = new List<CepgpParserLog>();
+        public List<CepgpParserLog> Logs = new List<CepgpParserLog>();
         public List<CepgpRecord> Records;
+        public List<CepgpTrafficEntry> Traffic;
 
         public void Parse(string filePath)
         {
@@ -21,6 +22,7 @@ namespace CepgpParser.Parser
                 lua.DoFile(filePath);
 
                 Records = ParseRecords((LuaTable)lua["RECORDS"]);
+                Traffic = ParseTraffic((LuaTable)lua["TRAFFIC"]);
             }
         }
 
@@ -58,14 +60,101 @@ namespace CepgpParser.Parser
             return cepgpRecords;
         }
 
-        //public void AddLog(string message)
-        //{
-        //    Logs.Add(new CepgpParserLog { Message = message });
-        //}
+        private List<CepgpTrafficEntry> ParseTraffic(LuaTable trafficTable)
+        {
+            List<CepgpTrafficEntry> cepgpTraffic = new List<CepgpTrafficEntry>();
+
+            foreach(long entryKey in trafficTable.Keys)
+            {
+                LuaTable entry = (LuaTable)trafficTable[entryKey];
+
+                cepgpTraffic.Add(new CepgpTrafficEntry
+                {
+                    Key = entryKey,
+                    Date = ParseDateTime(entry[9]),
+                    Player = ParseString(entry[1]),
+                    IssuedBy = ParseString(entry[2]),
+                    Action = ParseString(entry[3]),
+                    Item = ParseItem(entry[8], entryKey),
+                    EpBefore = ParseInt(entry[4]),
+                    EpAfter = ParseInt(entry[5]),
+                    GpBefore = ParseInt(entry[6]),
+                    GpAfter = ParseInt(entry[7])
+                });
+            }
+
+            return cepgpTraffic;
+        }
+
+        private string ParseString(object value)
+        {
+            return (string)value;
+        }
+
+        private int? ParseInt(object value)
+        {
+            if (value == null)
+                return null;
+            else if (value.GetType() == typeof(string) && ((string)value).IsInteger())
+                return ((string)value).ToInteger();
+            else if (value.GetType() == typeof(long))
+                return Convert.ToInt32(value);
+            else
+                return null;
+        }
+
+        private string ParseItem(object value, long entryKey)
+        {
+            if (value == null)
+                return null;
+            else if (value.GetType() == typeof(long) && (long)value == 0)
+                return null;
+            else if (value.GetType() != typeof(string))
+            {
+                AddLog(CepgpParserLogLevel.Warning_ParseIgnore, $"Ignoring entry {entryKey} item value. Is unknown non-string value: '{value.ToString()}'");
+                return null;
+            }
+
+            string strValue = ((string)value);
+
+            if (strValue.IsNullOrEmpty())
+                return null;
+            if (!strValue.Contains("[") || !strValue.Contains("]"))
+            {
+                AddLog(CepgpParserLogLevel.Warning_ParseIgnore, $"Ignoring entry {entryKey} item value. Bad format: '{value.ToString()}'");
+                return null;
+            }
+
+            return ((string)value).Between("[", "]");
+        }
+
+        private DateTime? ParseDateTime(object value)
+        {
+            if (value == null)
+                return null;
+
+            long epoch = value.GetType() == typeof(long) ? (long)value : ((string)value).ToLong();
+            
+            return DateTimeOffset.FromUnixTimeSeconds(epoch).UtcDateTime;
+        }
+
+        public void AddLog(CepgpParserLogLevel level, string message)
+        {
+            Logs.Add(new CepgpParserLog { Level = level, Message = message });
+        }
     }
 
     public class CepgpParserLog
     {
+        public CepgpParserLogLevel Level;
         public string Message;
+    }
+
+    public enum CepgpParserLogLevel
+    {
+        Info,
+        Warning,
+        Warning_ParseIgnore,
+        Error
     }
 }
