@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>CepgpParser.Parser</RootNamespace>
+    <Version>0.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
