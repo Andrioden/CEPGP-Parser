@@ -4,10 +4,27 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>CepgpParser.Parser</RootNamespace>
     <Version>0.0.1</Version>
+    <PackageId>CepgpParser.Parser</PackageId>
+    <Authors>André S. Hansen</Authors>
+    <Company />
+    <Product>CEPGP-Parser</Product>
+    <RepositoryUrl></RepositoryUrl>
+    <RepositoryType></RepositoryType>
+    <NeutralLanguage></NeutralLanguage>
+    <Copyright>André S. Hansen</Copyright>
+    <PackageProjectUrl>https://github.com/Andrioden/CEPGP-Parser</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="NLua" Version="1.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
