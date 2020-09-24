@@ -6,12 +6,12 @@ using CepgpParser.Parser.Extensions;
 namespace CepgpParser.Parser.Tests
 {
     [TestClass]
-    public class CepgpParserTest
+    public class LuaCepgpParserTest
     {
         [TestMethod]
         public void CepgpParser_full_test()
         {
-            CepgpParser parser = new CepgpParser();
+            LuaCepgpParser parser = new LuaCepgpParser();
             parser.Parse("CEPGP.lua");
 
             // Records

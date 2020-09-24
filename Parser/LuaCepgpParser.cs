@@ -8,7 +8,7 @@ using System.Text;
 
 namespace CepgpParser.Parser
 {
-    public class CepgpParser
+    public class LuaCepgpParser
     {
         public List<CepgpParserLog> Logs = new List<CepgpParserLog>();
         public List<CepgpRecord> Records;
