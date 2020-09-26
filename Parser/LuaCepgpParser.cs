@@ -5,6 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using CepgpParser.Parser.Extensions;
 using System.Text;
+using System.IO;
+using CepgpParser.Parser.Utils;
+using System.Threading.Tasks;
 
 namespace CepgpParser.Parser
 {
@@ -21,9 +24,27 @@ namespace CepgpParser.Parser
                 lua.State.Encoding = Encoding.UTF8;
                 lua.DoFile(filePath);
 
-                Records = ParseRecords((LuaTable)lua["RECORDS"]);
-                Traffic = ParseTraffic((LuaTable)lua["TRAFFIC"]);
+                Parse(lua);
             }
+        }
+
+        public async Task ParseAsync(Stream stream)
+        {
+            byte[] fileContent = await StreamUtils.ToByteArrayAsync(stream);
+
+            using (Lua lua = new Lua())
+            {
+                lua.State.Encoding = Encoding.UTF8;
+                lua.DoString(fileContent);
+
+                Parse(lua);
+            }
+        }
+
+        private void Parse(Lua lua)
+        {
+            Records = ParseRecords((LuaTable)lua["RECORDS"]);
+            Traffic = ParseTraffic((LuaTable)lua["TRAFFIC"]);
         }
 
         private List<CepgpRecord> ParseRecords(LuaTable recordsTable)

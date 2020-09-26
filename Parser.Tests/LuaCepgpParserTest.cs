@@ -2,6 +2,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using CepgpParser.Parser.Extensions;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace CepgpParser.Parser.Tests
 {
@@ -9,7 +11,7 @@ namespace CepgpParser.Parser.Tests
     public class LuaCepgpParserTest
     {
         [TestMethod]
-        public void CepgpParser_full_test()
+        public void CepgpParser_Parse_filepath()
         {
             LuaCepgpParser parser = new LuaCepgpParser();
             parser.Parse("CEPGP.lua");
@@ -64,6 +66,19 @@ namespace CepgpParser.Parser.Tests
             // Traffic - Old format bugged date
             CepgpTrafficEntry oldTraffic4 = parser.Traffic.First(e => e.Key == 903);
             Assert.AreEqual(1580676719, oldTraffic4.Date.Value.ToEpoch());
+        }
+
+        [TestMethod]
+        public async Task CepgpParser_Parse_stream()
+        {
+            using (FileStream file = new FileStream("CEPGP.lua", FileMode.Open, FileAccess.Read))
+            {
+                LuaCepgpParser parser = new LuaCepgpParser();
+                await parser.ParseAsync(file);
+
+                Assert.IsTrue(parser.Records.Count > 10);
+                Assert.IsTrue(parser.Traffic.Count > 100);
+            }
         }
     }
 }
