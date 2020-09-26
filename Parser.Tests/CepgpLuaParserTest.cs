@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace CepgpParser.Parser.Tests
 {
     [TestClass]
-    public class LuaCepgpParserTest
+    public class CepgpLuaParserTest
     {
         [TestMethod]
-        public void CepgpParser_Parse_filepath()
+        public void CepgpLuaParser_Parse_filepath()
         {
-            LuaCepgpParser parser = new LuaCepgpParser();
+            CepgpLuaParser parser = new CepgpLuaParser();
             parser.Parse("CEPGP.lua");
 
             // Records
@@ -69,11 +69,11 @@ namespace CepgpParser.Parser.Tests
         }
 
         [TestMethod]
-        public async Task CepgpParser_Parse_stream()
+        public async Task CepgpLuaParser_Parse_stream()
         {
             using (FileStream file = new FileStream("CEPGP.lua", FileMode.Open, FileAccess.Read))
             {
-                LuaCepgpParser parser = new LuaCepgpParser();
+                CepgpLuaParser parser = new CepgpLuaParser();
                 await parser.ParseAsync(file);
 
                 Assert.IsTrue(parser.Records.Count > 10);

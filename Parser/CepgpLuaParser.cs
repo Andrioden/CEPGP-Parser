@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CepgpParser.Parser
 {
-    public class LuaCepgpParser
+    public class CepgpLuaParser
     {
         public List<CepgpParserLog> Logs = new List<CepgpParserLog>();
         public List<CepgpRecord> Records;
