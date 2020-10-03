@@ -28,13 +28,15 @@ namespace CepgpParser.Parser
 
     public enum CepgpItemQuality
     {
+        [Description("???")]
+        Common = 1,
         [Description("cff1eff00")]
-        Uncommon,
+        Uncommon = 2,
         [Description("cff0070dd")]
-        Rare,
+        Rare = 3,
         [Description("cffa335ee")]
-        Epic,
+        Epic = 4,
         [Description("cffff8000")]
-        Legendary
+        Legendary = 5
     }
 }
