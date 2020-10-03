@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace CepgpParser.Parser
@@ -11,16 +12,29 @@ namespace CepgpParser.Parser
         public string Player;
         public string IssuedBy;
         public string Action;
-        public CepgpTrafficEntryItem Item;
+        public CepgpItem Item;
         public int? EpBefore;
         public int? EpAfter;
         public int? GpBefore;
         public int? GpAfter;
     }
 
-    public class CepgpTrafficEntryItem
+    public class CepgpItem
     {
         public int Id;
         public string Name;
+        public CepgpItemQuality Quality;
+    }
+
+    public enum CepgpItemQuality
+    {
+        [Description("cff1eff00")]
+        Uncommon,
+        [Description("cff0070dd")]
+        Rare,
+        [Description("cffa335ee")]
+        Epic,
+        [Description("cffff8000")]
+        Legendary
     }
 }

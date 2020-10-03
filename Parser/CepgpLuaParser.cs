@@ -124,7 +124,7 @@ namespace CepgpParser.Parser
                 return null;
         }
 
-        private CepgpTrafficEntryItem ParseItem(object value, long entryKey)
+        private CepgpItem ParseItem(object value, long entryKey)
         {
             if (value == null)
                 return null;
@@ -146,10 +146,11 @@ namespace CepgpParser.Parser
                 return null;
             }
 
-            return new CepgpTrafficEntryItem
+            return new CepgpItem
             {
                 Id = strValue.Between("Hitem:", "::::::::").ToInteger(),
-                Name = strValue.Between("[", "]")
+                Name = strValue.Between("[", "]"),
+                Quality = EnumUtils.GetEnumValueFromDescription<CepgpItemQuality>(strValue.Between("|", "|Hitem"))
             };
         }
 

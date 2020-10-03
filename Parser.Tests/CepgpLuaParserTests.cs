@@ -46,7 +46,12 @@ namespace CepgpParser.Parser.Tests
             Assert.AreEqual(614, newTraffic.GpAfter);
             Assert.AreEqual(21581, newTraffic.Item.Id);
             Assert.AreEqual("Gauntlets of Annihilation", newTraffic.Item.Name);
+            Assert.AreEqual(CepgpItemQuality.Epic, newTraffic.Item.Quality);
             Assert.AreEqual(1600635769, newTraffic.Date.Value.ToEpoch());
+
+            // Traffic - Legdendary item
+            CepgpTrafficEntry ledgTraffic = parser.Traffic.First(e => e.Key == 1656);
+            Assert.AreEqual(CepgpItemQuality.Legendary, ledgTraffic.Item.Quality);
 
             // Traffic - Old format
             CepgpTrafficEntry oldTraffic1 = parser.Traffic.First(e => e.Key == 1);
