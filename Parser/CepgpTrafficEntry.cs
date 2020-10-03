@@ -11,10 +11,16 @@ namespace CepgpParser.Parser
         public string Player;
         public string IssuedBy;
         public string Action;
-        public string Item;
+        public CepgpTrafficEntryItem Item;
         public int? EpBefore;
         public int? EpAfter;
         public int? GpBefore;
         public int? GpAfter;
+    }
+
+    public class CepgpTrafficEntryItem
+    {
+        public int Id;
+        public string Name;
     }
 }

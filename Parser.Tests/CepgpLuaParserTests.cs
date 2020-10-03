@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace CepgpParser.Parser.Tests
 {
     [TestClass]
-    public class CepgpLuaParserTest
+    public class CepgpLuaParserTests
     {
         [TestMethod]
         public void CepgpLuaParser_Parse_filepath()
@@ -44,7 +44,8 @@ namespace CepgpParser.Parser.Tests
             Assert.AreEqual(409, newTraffic.EpAfter);
             Assert.AreEqual(164, newTraffic.GpBefore);
             Assert.AreEqual(614, newTraffic.GpAfter);
-            Assert.AreEqual("Gauntlets of Annihilation", newTraffic.Item);
+            Assert.AreEqual(21581, newTraffic.Item.Id);
+            Assert.AreEqual("Gauntlets of Annihilation", newTraffic.Item.Name);
             Assert.AreEqual(1600635769, newTraffic.Date.Value.ToEpoch());
 
             // Traffic - Old format

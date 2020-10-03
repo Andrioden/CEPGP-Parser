@@ -62,12 +62,12 @@ namespace CepgpParser.Parser.Extensions
         }
 
         /// <summary>
-        /// Source: https://stackoverflow.com/a/17252672
+        /// Inspiration: https://stackoverflow.com/a/17252672
         /// </summary>
         public static string Between(this string value, string from, string to)
         {
             int pFrom = value.IndexOf(from) + from.Length;
-            int pTo = value.LastIndexOf(to);
+            int pTo = value.IndexOf(to);
 
             return value.Substring(pFrom, pTo - pFrom);
         }

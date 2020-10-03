@@ -124,7 +124,7 @@ namespace CepgpParser.Parser
                 return null;
         }
 
-        private string ParseItem(object value, long entryKey)
+        private CepgpTrafficEntryItem ParseItem(object value, long entryKey)
         {
             if (value == null)
                 return null;
@@ -146,7 +146,11 @@ namespace CepgpParser.Parser
                 return null;
             }
 
-            return ((string)value).Between("[", "]");
+            return new CepgpTrafficEntryItem
+            {
+                Id = strValue.Between("Hitem:", "::::::::").ToInteger(),
+                Name = strValue.Between("[", "]")
+            };
         }
 
         private DateTime? ParseDateTime(object value)
