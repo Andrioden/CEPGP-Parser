@@ -43,8 +43,8 @@ namespace CepgpParser.Parser
 
         private void Parse(Lua lua)
         {
-            Records = ParseRecords((LuaTable)lua["RECORDS"]);
-            Traffic = ParseTraffic((LuaTable)lua["TRAFFIC"]);
+            Records = ParseRecords((LuaTable)lua["CEPGP.Backups"]);
+            Traffic = ParseTraffic((LuaTable)lua["CEPGP.Traffic"]);
         }
 
         private List<CepgpRecord> ParseRecords(LuaTable recordsTable)
