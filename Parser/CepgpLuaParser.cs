@@ -164,7 +164,7 @@ namespace CepgpParser.Parser
             return DateTimeOffset.FromUnixTimeSeconds(epoch).UtcDateTime;
         }
 
-        public void AddLog(CepgpParserLogLevel level, string message)
+        private void AddLog(CepgpParserLogLevel level, string message)
         {
             Logs.Add(new CepgpParserLog { Level = level, Message = message });
         }
