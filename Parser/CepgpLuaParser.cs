@@ -132,7 +132,7 @@ namespace CepgpParser.Parser
                 return null;
             else if (value.GetType() != typeof(string))
             {
-                AddLog(CepgpParserLogLevel.Warning_ParseIgnore, $"Ignoring entry {entryKey} item value. Is unknown non-string value: '{value.ToString()}'");
+                AddLog(CepgpParserLogLevel.Warning_ParseIgnore, $"Ignoring traffic entry {entryKey} item value. Is unknown non-string value: '{value.ToString()}'");
                 return null;
             }
 
@@ -142,7 +142,7 @@ namespace CepgpParser.Parser
                 return null;
             if (!strValue.Contains("[") || !strValue.Contains("]"))
             {
-                AddLog(CepgpParserLogLevel.Warning_ParseIgnore, $"Ignoring entry {entryKey} item value. Bad format: '{value.ToString()}'");
+                AddLog(CepgpParserLogLevel.Warning_ParseIgnore, $"Ignoring traffic entry {entryKey} item value. Bad format: '{value.ToString()}'");
                 return null;
             }
 
