@@ -68,7 +68,7 @@ namespace CepgpParser.Parser
 
                     cepgpRecord.Entries.Add(new CepgpRecordEntry
                     {
-                        Nick = entryKey.Split("-")[0],
+                        Player = entryKey.Split("-")[0],
                         Server = entryKey.Split("-")[1],
                         EP = entryValue.Split(",")[0].ToInteger(),
                         GP = entryValue.Split(",")[1].ToInteger()

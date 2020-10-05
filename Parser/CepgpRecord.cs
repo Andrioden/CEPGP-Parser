@@ -13,14 +13,14 @@ namespace CepgpParser.Parser
 
     public class CepgpRecordEntry
     {
-        public string Nick;
+        public string Player;
         public string Server;
         public int EP;
         public int GP;
 
         public override string ToString()
         {
-            return $"{Nick}-{Server} : {EP},{GP}";
+            return $"{Player}-{Server} : {EP},{GP}";
         }
     }
 }

@@ -27,7 +27,7 @@ namespace CepgpParser.Parser.Tests
             Assert.AreEqual(139, record.Entries.Count);
 
             // Record - 20200501 - Castortoy-ZandalarTribe
-            CepgpRecordEntry entry = record.Entries.First(r => r.Nick == "Castortoy");
+            CepgpRecordEntry entry = record.Entries.First(r => r.Player == "Castortoy");
             Assert.AreEqual("ZandalarTribe", entry.Server);
             Assert.AreEqual(307, entry.EP);
             Assert.AreEqual(302, entry.GP);
