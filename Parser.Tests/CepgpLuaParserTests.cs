@@ -75,6 +75,16 @@ namespace CepgpParser.Parser.Tests
         }
 
         [TestMethod]
+        public void CepgpLuaParser_Parse_filepath_old_file()
+        {
+            CepgpLuaParser parser = new CepgpLuaParser();
+            parser.Parse("CEPGP_old.lua");
+
+            Assert.IsTrue(parser.Records.Count > 10);
+            Assert.IsTrue(parser.Traffic.Count > 100);
+        }
+
+        [TestMethod]
         public async Task CepgpLuaParser_Parse_stream()
         {
             using (FileStream file = new FileStream("CEPGP.lua", FileMode.Open, FileAccess.Read))

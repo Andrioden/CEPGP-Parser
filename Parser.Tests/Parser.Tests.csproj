@@ -8,11 +8,14 @@
 
   <ItemGroup>
     <None Remove="CEPGP.lua" />
-    <None Remove="test.lua" />
+    <None Remove="CEPGP_old.lua" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="CEPGP.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CEPGP_old.lua">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

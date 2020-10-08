@@ -66,6 +66,9 @@ namespace CepgpParser.Parser
                 {
                     string entryValue = (string)recordTable[entryKey];
 
+                    if (entryValue.IsNullOrEmpty())
+                        entryValue = "0,1";
+
                     cepgpRecord.Entries.Add(new CepgpRecordEntry
                     {
                         Player = entryKey.Split("-")[0],
