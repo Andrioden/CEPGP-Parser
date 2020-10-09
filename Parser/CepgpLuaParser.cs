@@ -51,28 +51,29 @@ namespace CepgpParser.Parser
         {
             List<CepgpRecord> cepgpRecords = new List<CepgpRecord>();
 
-            foreach (string recordKey in recordsTable.Keys)
+            foreach (object recordKey in recordsTable.Keys)
             {
                 LuaTable recordTable = ((LuaTable)recordsTable[recordKey]);
+                string recordName = (string)recordKey;
 
                 CepgpRecord cepgpRecord = new CepgpRecord
                 {
-                    Name = recordKey,
-                    Date = recordKey.IsDateTime("yyyyMMdd") ? recordKey.ToDateTime("yyyyMMdd") : (DateTime?)null,
+                    Name = recordName,
+                    Date = recordName.IsDateTime("yyyyMMdd") ? recordName.ToDateTime("yyyyMMdd") : (DateTime?)null,
                     Entries = new List<CepgpRecordEntry>()
                 };
 
-                foreach (string entryKey in recordTable.Keys)
+                foreach (object entryKey in recordTable.Keys)
                 {
                     string entryValue = (string)recordTable[entryKey];
 
                     if (entryValue.IsNullOrEmpty())
                         entryValue = "0,1";
-
+                    
                     cepgpRecord.Entries.Add(new CepgpRecordEntry
                     {
-                        Player = entryKey.Split("-")[0],
-                        Server = entryKey.Split("-")[1],
+                        Player = entryKey.ToString().Split("-")[0],
+                        Server = entryKey.ToString().Split("-")[1],
                         EP = entryValue.Split(",")[0].ToInteger(),
                         GP = entryValue.Split(",")[1].ToInteger()
                     });

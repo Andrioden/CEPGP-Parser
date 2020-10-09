@@ -67424,7 +67424,7 @@ CEPGP = {
 			["Smashed-Firemaw"] = "100,729",
 			["Bammie-Firemaw"] = "0,1",
 		},
-		["20190930 v2"] = {
+		["2019.09.30 v2"] = {
 			["Heleni-Firemaw"] = "0,1",
 			["Slise-Firemaw"] = "0,1",
 			["Hegbert-Firemaw"] = "19,360",
