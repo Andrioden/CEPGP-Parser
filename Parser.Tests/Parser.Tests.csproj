@@ -9,9 +9,13 @@
   <ItemGroup>
     <None Remove="CEPGP.lua" />
     <None Remove="CEPGP_old.lua" />
+    <None Remove="CEPGP_record_entity_bad_value.lua" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="CEPGP_record_entity_bad_value.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="CEPGP.lua">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

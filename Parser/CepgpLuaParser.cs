@@ -8,6 +8,7 @@ using System.Text;
 using System.IO;
 using CepgpParser.Parser.Utils;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace CepgpParser.Parser
 {
@@ -69,7 +70,9 @@ namespace CepgpParser.Parser
 
                     if (entryValue.IsNullOrEmpty())
                         entryValue = "0,1";
-                    
+                    if (new Regex(@"^\d+,\d+$").IsMatch(entryValue) == false)
+                        continue;
+
                     cepgpRecord.Entries.Add(new CepgpRecordEntry
                     {
                         Player = entryKey.ToString().Split("-")[0],

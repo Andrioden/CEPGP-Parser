@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>CepgpParser.Parser</RootNamespace>
-    <Version>0.0.11</Version>
+    <Version>0.0.12</Version>
     <PackageId>CepgpParser.Parser</PackageId>
     <Authors>André S. Hansen</Authors>
     <Company />
