@@ -85,13 +85,23 @@ namespace CepgpParser.Parser.Tests
         }
 
         [TestMethod]
+        public void CepgpLuaParser_Parse_traffic_bad_value()
+        {
+            CepgpLuaParser parser = new CepgpLuaParser();
+            parser.Parse("CEPGP_traffic_bad_value.lua");
+
+            Assert.AreEqual(2, parser.Traffic.Count(t => t.Item != null));
+            Assert.AreEqual(1, parser.Traffic.Count(t => t.Item == null));
+        }
+
+        [TestMethod]
         public void CepgpLuaParser_Parse_record_entity_bad_value()
         {
             CepgpLuaParser parser = new CepgpLuaParser();
             parser.Parse("CEPGP_record_entity_bad_value.lua");
 
-            Assert.IsTrue(parser.Records.Count == 1);
-            Assert.IsTrue(parser.Records[0].Entries.Count() == 2);
+            Assert.AreEqual(1, parser.Records.Count);
+            Assert.AreEqual(2, parser.Records[0].Entries.Count());
         }
 
         [TestMethod]

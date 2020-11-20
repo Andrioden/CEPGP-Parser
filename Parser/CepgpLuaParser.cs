@@ -18,6 +18,8 @@ namespace CepgpParser.Parser
         public List<CepgpRecord> Records;
         public List<CepgpTrafficEntry> Traffic;
 
+        private readonly Regex RecordEntryValueRegex = new Regex(@"^\d+,\d+$");
+
         public void Parse(string filePath)
         {
             using (Lua lua = new Lua())
@@ -70,8 +72,11 @@ namespace CepgpParser.Parser
 
                     if (entryValue.IsNullOrEmpty())
                         entryValue = "0,1";
-                    if (new Regex(@"^\d+,\d+$").IsMatch(entryValue) == false)
+                    if (RecordEntryValueRegex.IsMatch(entryValue) == false)
+                    {
+                        AddLog(CepgpParserLogLevel.Warning_ParseIgnore, $"Ignoring record entry, bad format. Record '{recordName}', entry key '{entryKey.ToString()}', value '{entryValue}'");
                         continue;
+                    }
 
                     cepgpRecord.Entries.Add(new CepgpRecordEntry
                     {
@@ -153,9 +158,16 @@ namespace CepgpParser.Parser
                 return null;
             }
 
+            string itemId = strValue.Between("Hitem:", "::::::::");
+            if (itemId.IsInteger() == false)
+            {
+                AddLog(CepgpParserLogLevel.Warning_ParseIgnore, $"Ignoring traffic entry {entryKey} item value. Bad item id: '{itemId}'");
+                return null;
+            }
+
             return new CepgpItem
             {
-                Id = strValue.Between("Hitem:", "::::::::").ToInteger(),
+                Id = itemId.ToInteger(),
                 Name = strValue.Between("[", "]"),
                 Quality = EnumUtils.GetEnumValueFromDescription<CepgpItemQuality>(strValue.Between("|", "|Hitem"))
             };
