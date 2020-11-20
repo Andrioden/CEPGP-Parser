@@ -23,7 +23,7 @@ namespace CepgpParser.Parser.Utils
                     return (T)Enum.Parse(typeof(T), fi.Name);
             }
 
-            throw new Exception("Not found");
+            throw new Exception($"Enum description '{description}' for enum {typeof(T)} not found.");
         }
     }
 }
