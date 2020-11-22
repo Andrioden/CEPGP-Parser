@@ -32,6 +32,7 @@ namespace CepgpParser.Parser.Tests
             Assert.AreEqual(307, entry.EP);
             Assert.AreEqual(302, entry.GP);
 
+
             // Traffic
             Assert.IsTrue(parser.Traffic.Count > 100);
 
@@ -72,6 +73,22 @@ namespace CepgpParser.Parser.Tests
             // Traffic - Old format bugged date
             CepgpTrafficEntry oldTraffic4 = parser.Traffic.First(e => e.Key == 903);
             Assert.AreEqual(1580676719, oldTraffic4.Date.Value.ToEpoch());
+
+
+            // Overrides
+            Assert.IsTrue(parser.Overrides.Count > 100);
+
+            // Override - only item name
+            CepgpItemCostOverride over1 = parser.Overrides.First(o => o.Key == "Boots of Epiphany");
+            Assert.AreEqual(null, over1.Item);
+            Assert.AreEqual(150, over1.GP);
+
+            // Override - full
+            CepgpItemCostOverride over2 = parser.Overrides.First(o => o.Item?.Name == "Felheart Gloves");
+            Assert.AreEqual("|cffa335ee|Hitem:16805:::::::::::::|h[Felheart Gloves]|h|r", over2.Key);
+            Assert.AreEqual(16805, over2.Item.Id);
+            Assert.AreEqual(CepgpItemQuality.Epic, over2.Item.Quality);
+            Assert.AreEqual(75, over2.GP);
         }
 
         [TestMethod]
@@ -82,6 +99,7 @@ namespace CepgpParser.Parser.Tests
 
             Assert.IsTrue(parser.Records.Count > 10);
             Assert.IsTrue(parser.Traffic.Count > 100);
+            Assert.IsTrue(parser.Overrides.Count > 100);
         }
 
         [TestMethod]

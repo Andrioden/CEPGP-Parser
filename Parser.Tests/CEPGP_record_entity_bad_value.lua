@@ -7,4 +7,5 @@ CEPGP = {
 			["Taraldina-ZandalarTribe"] = "0,1",
 		},
 	},
+	["Overrides"] = { }
 }

@@ -17,6 +17,7 @@ namespace CepgpParser.Parser
         public List<CepgpParserLog> Logs = new List<CepgpParserLog>();
         public List<CepgpRecord> Records;
         public List<CepgpTrafficEntry> Traffic;
+        public List<CepgpItemCostOverride> Overrides;
 
         private readonly Regex RecordEntryValueRegex = new Regex(@"^\d+,\d+$");
 
@@ -48,6 +49,7 @@ namespace CepgpParser.Parser
         {
             Records = ParseRecords((LuaTable)lua["CEPGP.Backups"]);
             Traffic = ParseTraffic((LuaTable)lua["CEPGP.Traffic"]);
+            Overrides = ParseOverrides((LuaTable)lua["CEPGP.Overrides"]);
         }
 
         private List<CepgpRecord> ParseRecords(LuaTable recordsTable)
@@ -97,7 +99,7 @@ namespace CepgpParser.Parser
         {
             List<CepgpTrafficEntry> cepgpTraffic = new List<CepgpTrafficEntry>();
 
-            foreach(long entryKey in trafficTable.Keys)
+            foreach (long entryKey in trafficTable.Keys)
             {
                 LuaTable entry = (LuaTable)trafficTable[entryKey];
 
@@ -108,7 +110,7 @@ namespace CepgpParser.Parser
                     Player = ParseString(entry[1]),
                     IssuedBy = ParseString(entry[2]),
                     Action = ParseString(entry[3]),
-                    Item = ParseItem(entry[8], entryKey),
+                    Item = ParseItem(entry[8], $"Traffic entry {entryKey}"),
                     EpBefore = ParseInt(entry[4]),
                     EpAfter = ParseInt(entry[5]),
                     GpBefore = ParseInt(entry[6]),
@@ -117,6 +119,28 @@ namespace CepgpParser.Parser
             }
 
             return cepgpTraffic;
+        }
+
+        private List<CepgpItemCostOverride> ParseOverrides(LuaTable overridesTable)
+        {
+            List<CepgpItemCostOverride> overrides = new List<CepgpItemCostOverride>();
+
+            foreach (string overrideKey in overridesTable.Keys)
+            {
+                int? value = ParseInt(overridesTable[overrideKey]);
+
+                if (value == null)
+                    continue;
+
+                overrides.Add(new CepgpItemCostOverride
+                {
+                    Key = overrideKey,
+                    Item = ParseItem(overrideKey),
+                    GP = value.Value
+                });
+            }
+
+            return overrides;
         }
 
         private string ParseString(object value)
@@ -136,7 +160,7 @@ namespace CepgpParser.Parser
                 return null;
         }
 
-        private CepgpItem ParseItem(object value, long entryKey)
+        private CepgpItem ParseItem(object value, string logParseContext = null)
         {
             if (value == null)
                 return null;
@@ -144,7 +168,8 @@ namespace CepgpParser.Parser
                 return null;
             else if (value.GetType() != typeof(string))
             {
-                AddLog(CepgpParserLogLevel.Warning_ParseIgnore, $"Ignoring traffic entry {entryKey} item value. Is unknown non-string value: '{value.ToString()}'");
+                if (logParseContext != null)
+                    AddLog(CepgpParserLogLevel.Warning_ParseIgnore, $"Ignoring {logParseContext} item value. Is unknown non-string value: '{value.ToString()}'");
                 return null;
             }
 
@@ -154,14 +179,16 @@ namespace CepgpParser.Parser
                 return null;
             if (!strValue.Contains("[") || !strValue.Contains("]"))
             {
-                AddLog(CepgpParserLogLevel.Warning_ParseIgnore, $"Ignoring traffic entry {entryKey} item value. Bad format: '{value.ToString()}'");
+                if (logParseContext != null)
+                    AddLog(CepgpParserLogLevel.Warning_ParseIgnore, $"Ignoring {logParseContext} item value. Bad format: '{value.ToString()}'");
                 return null;
             }
 
             string itemId = strValue.Between("Hitem:", "::::::::");
             if (itemId.IsInteger() == false)
             {
-                AddLog(CepgpParserLogLevel.Warning_ParseIgnore, $"Ignoring traffic entry {entryKey} item value. Bad item id: '{itemId}'");
+                if (logParseContext != null)
+                    AddLog(CepgpParserLogLevel.Warning_ParseIgnore, $"Ignoring {logParseContext} item value. Bad item id: '{itemId}'");
                 return null;
             }
 
