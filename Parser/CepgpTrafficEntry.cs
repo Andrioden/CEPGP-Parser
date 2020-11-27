@@ -28,7 +28,9 @@ namespace CepgpParser.Parser
 
     public enum CepgpItemQuality
     {
-        [Description("???")]
+        [Description("cff9d9d9d")]
+        Poor = 1,
+        [Description("cffffffff")]
         Common = 1,
         [Description("cff1eff00")]
         Uncommon = 2,
