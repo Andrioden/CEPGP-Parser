@@ -4,6 +4,7 @@ using System.Linq;
 using CepgpParser.Parser.Extensions;
 using System.IO;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace CepgpParser.Parser.Tests
 {
@@ -11,7 +12,7 @@ namespace CepgpParser.Parser.Tests
     public class CepgpLuaParserTests
     {
         [TestMethod]
-        public void CepgpLuaParser_Parse_filepath()
+        public void CepgpLuaParser_Parse_filepath_new_file()
         {
             CepgpLuaParser parser = new CepgpLuaParser();
             parser.Parse("CEPGP.lua");
@@ -120,6 +121,19 @@ namespace CepgpParser.Parser.Tests
 
             Assert.AreEqual(1, parser.Records.Count);
             Assert.AreEqual(2, parser.Records[0].Entries.Count());
+        }
+
+        [TestMethod]
+        public void CepgpLuaParser_Parse_alt_linking()
+        {
+            CepgpLuaParser parser = new CepgpLuaParser();
+            parser.Parse("CEPGP_alt_linking.lua");
+
+            Assert.AreEqual("Main", parser.Alt.Links.Keys.First());
+            CollectionAssert.AreEqual(new List<string> { "Alt1", "Alt2" }, parser.Alt.Links["Main"]);
+            Assert.AreEqual(true, parser.Alt.SyncEP);
+            Assert.AreEqual(true, parser.Alt.SyncGP);
+            Assert.AreEqual(false, parser.Alt.BlockAwards);
         }
 
         [TestMethod]

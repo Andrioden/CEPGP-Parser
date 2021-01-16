@@ -18,6 +18,7 @@ namespace CepgpParser.Parser
         public List<CepgpRecord> Records;
         public List<CepgpTrafficEntry> Traffic;
         public List<CepgpItemCostOverride> Overrides;
+        public CepgpAlt Alt;
 
         private readonly Regex RecordEntryValueRegex = new Regex(@"^\d+,\d+$");
 
@@ -50,6 +51,7 @@ namespace CepgpParser.Parser
             Records = ParseRecords((LuaTable)lua["CEPGP.Backups"]);
             Traffic = ParseTraffic((LuaTable)lua["CEPGP.Traffic"]);
             Overrides = ParseOverrides((LuaTable)lua["CEPGP.Overrides"]);
+            Alt = ParseAlt((LuaTable)lua["CEPGP.Alt"]);
         }
 
         private List<CepgpRecord> ParseRecords(LuaTable recordsTable)
@@ -143,6 +145,20 @@ namespace CepgpParser.Parser
             return overrides;
         }
 
+        private CepgpAlt ParseAlt(LuaTable overridesTable)
+        {
+            if (overridesTable == null)
+                return null;
+
+            return new CepgpAlt
+            {
+                Links = ParseStringToStringListDict(overridesTable["Links"]),
+                SyncEP = ParseBool(overridesTable["SyncEP"]),
+                SyncGP = ParseBool(overridesTable["SyncGP"]),
+                BlockAwards = ParseBool(overridesTable["BlockAwards"]),
+            };
+        }
+
         private string ParseString(object value)
         {
             return (string)value;
@@ -156,6 +172,16 @@ namespace CepgpParser.Parser
                 return ((string)value).ToInteger();
             else if (value.GetType() == typeof(long))
                 return Convert.ToInt32(value);
+            else
+                return null;
+        }
+
+        private bool? ParseBool(object value)
+        {
+            if (value == null)
+                return null;
+            else if (value.GetType() == typeof(bool))
+                return (bool)value;
             else
                 return null;
         }
@@ -208,6 +234,20 @@ namespace CepgpParser.Parser
             long epoch = value.GetType() == typeof(long) ? (long)value : ((string)value).ToLong();
             
             return DateTimeOffset.FromUnixTimeSeconds(epoch).UtcDateTime;
+        }
+
+        private Dictionary<string, List<string>> ParseStringToStringListDict(object value)
+        {
+            if (value == null)
+                return null;
+
+            LuaTable table = ((LuaTable)value);
+
+            Dictionary<string, List<string>> dict = new Dictionary<string, List<string>>();
+            foreach (string key in table.Keys)
+                dict[key] = ((LuaTable)table[key]).Values.Cast<string>().ToList();
+
+            return dict;
         }
 
         private void AddLog(CepgpParserLogLevel level, string message)
