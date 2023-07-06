@@ -9,6 +9,7 @@ using System.IO;
 using CepgpParser.Parser.Utils;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using CepgpParser.Core;
 
 namespace CepgpParser.Parser
 {
@@ -22,7 +23,7 @@ namespace CepgpParser.Parser
 
         private readonly Regex RecordEntryValueRegex = new Regex(@"^\d+,\d+$");
 
-        public void Parse(string filePath)
+        public void ParseFile(string filePath)
         {
             using (Lua lua = new Lua())
             {
@@ -254,19 +255,5 @@ namespace CepgpParser.Parser
         {
             Logs.Add(new CepgpParserLog { Level = level, Message = message });
         }
-    }
-
-    public class CepgpParserLog
-    {
-        public CepgpParserLogLevel Level;
-        public string Message;
-    }
-
-    public enum CepgpParserLogLevel
-    {
-        Info,
-        Warning,
-        Warning_ParseIgnore,
-        Error
     }
 }
