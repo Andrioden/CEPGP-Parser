@@ -1,4 +1,4 @@
-﻿namespace CepgpParser.Parser
+﻿namespace CepgpParser.Parser.Lua
 {
     public class CepgpItemCostOverride
     {

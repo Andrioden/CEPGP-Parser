@@ -9,9 +9,9 @@ using System.IO;
 using CepgpParser.Parser.Utils;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
-using CepgpParser.Core;
+using CepgpParser.Parser.Common;
 
-namespace CepgpParser.Parser
+namespace CepgpParser.Parser.Lua
 {
     public class CepgpLuaParser
     {
@@ -25,7 +25,7 @@ namespace CepgpParser.Parser
 
         public void ParseFile(string filePath)
         {
-            using (Lua lua = new Lua())
+            using (NLua.Lua lua = new NLua.Lua())
             {
                 lua.State.Encoding = Encoding.UTF8;
                 lua.DoFile(filePath);
@@ -38,7 +38,7 @@ namespace CepgpParser.Parser
         {
             byte[] fileContent = await StreamUtils.ToByteArrayAsync(stream);
 
-            using (Lua lua = new Lua())
+            using (NLua.Lua lua = new NLua.Lua())
             {
                 lua.State.Encoding = Encoding.UTF8;
                 lua.DoString(fileContent);
@@ -47,7 +47,7 @@ namespace CepgpParser.Parser
             }
         }
 
-        private void Parse(Lua lua)
+        private void Parse(NLua.Lua lua)
         {
             Records = ParseRecords((LuaTable)lua["CEPGP.Backups"]);
             Traffic = ParseTraffic((LuaTable)lua["CEPGP.Traffic"]);
@@ -61,13 +61,13 @@ namespace CepgpParser.Parser
 
             foreach (object recordKey in recordsTable.Keys)
             {
-                LuaTable recordTable = ((LuaTable)recordsTable[recordKey]);
+                LuaTable recordTable = (LuaTable)recordsTable[recordKey];
                 string recordName = (string)recordKey;
 
                 CepgpRecord cepgpRecord = new CepgpRecord
                 {
                     Name = recordName,
-                    Date = recordName.IsDateTime("yyyyMMdd") ? recordName.ToDateTime("yyyyMMdd") : (DateTime?)null,
+                    Date = recordName.IsDateTime("yyyyMMdd") ? recordName.ToDateTime("yyyyMMdd") : null,
                     Entries = new List<CepgpRecordEntry>()
                 };
 
@@ -200,7 +200,7 @@ namespace CepgpParser.Parser
                 return null;
             }
 
-            string strValue = ((string)value);
+            string strValue = (string)value;
 
             if (strValue.IsNullOrEmpty())
                 return null;
@@ -233,7 +233,7 @@ namespace CepgpParser.Parser
                 return null;
 
             long epoch = value.GetType() == typeof(long) ? (long)value : ((string)value).ToLong();
-            
+
             return DateTimeOffset.FromUnixTimeSeconds(epoch).UtcDateTime;
         }
 
@@ -242,7 +242,7 @@ namespace CepgpParser.Parser
             if (value == null)
                 return null;
 
-            LuaTable table = ((LuaTable)value);
+            LuaTable table = (LuaTable)value;
 
             Dictionary<string, List<string>> dict = new Dictionary<string, List<string>>();
             foreach (string key in table.Keys)

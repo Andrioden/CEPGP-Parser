@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StandingsParser\StandingsParser.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="CEPGP_standings_wrath.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

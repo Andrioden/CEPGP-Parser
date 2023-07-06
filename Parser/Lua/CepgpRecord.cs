@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CepgpParser.Parser
+namespace CepgpParser.Parser.Lua
 {
     public class CepgpRecord
     {

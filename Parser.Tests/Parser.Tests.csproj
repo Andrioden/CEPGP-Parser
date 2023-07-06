@@ -6,32 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="CEPGP.lua" />
-    <None Remove="CEPGP_alt_linking.lua" />
-    <None Remove="CEPGP_old.lua" />
-    <None Remove="CEPGP_record_entity_bad_value.lua" />
-    <None Remove="CEPGP_traffic_bad_value.lua" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="CEPGP_alt_linking.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CEPGP_traffic_bad_value.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CEPGP_record_entity_bad_value.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CEPGP.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CEPGP_old.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.0.4" />
     <PackageReference Include="MSTest.TestFramework" Version="3.0.4" />
@@ -39,6 +13,27 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Parser\Parser.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Lua\CEPGP.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Lua\CEPGP_alt_linking.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Lua\CEPGP_old.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Lua\CEPGP_record_entity_bad_value.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Lua\CEPGP_traffic_bad_value.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Standings\CEPGP_standings_wrath.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

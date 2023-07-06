@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace CepgpParser.Parser
+namespace CepgpParser.Parser.Lua
 {
     public class CepgpTrafficEntry
     {

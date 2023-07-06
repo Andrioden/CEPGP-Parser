@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Parser.Tests.Extensions
+namespace CepgpParser.Parser.Extensions.Tests
 {
     [TestClass]
     public class StringExtensionsTests

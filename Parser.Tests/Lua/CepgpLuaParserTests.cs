@@ -5,8 +5,9 @@ using CepgpParser.Parser.Extensions;
 using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using CepgpParser.Parser.Lua;
 
-namespace CepgpParser.Parser.Tests
+namespace CepgpParser.Parser.Lua.Tests
 {
     [TestClass]
     public class CepgpLuaParserTests
@@ -15,7 +16,7 @@ namespace CepgpParser.Parser.Tests
         public void CepgpLuaParser_ParseFile_new_file()
         {
             CepgpLuaParser parser = new CepgpLuaParser();
-            parser.ParseFile("CEPGP.lua");
+            parser.ParseFile("Lua/CEPGP.lua");
 
             // Records
             Assert.IsTrue(parser.Records.Count > 10);
@@ -96,7 +97,7 @@ namespace CepgpParser.Parser.Tests
         public void CepgpLuaParser_ParseFile_old_file()
         {
             CepgpLuaParser parser = new CepgpLuaParser();
-            parser.ParseFile("CEPGP_old.lua");
+            parser.ParseFile("Lua/CEPGP_old.lua");
 
             Assert.IsTrue(parser.Records.Count > 10);
             Assert.IsTrue(parser.Traffic.Count > 100);
@@ -107,7 +108,7 @@ namespace CepgpParser.Parser.Tests
         public void CepgpLuaParser_ParseFile_traffic_bad_value()
         {
             CepgpLuaParser parser = new CepgpLuaParser();
-            parser.ParseFile("CEPGP_traffic_bad_value.lua");
+            parser.ParseFile("Lua/CEPGP_traffic_bad_value.lua");
 
             Assert.AreEqual(2, parser.Traffic.Count(t => t.Item != null));
             Assert.AreEqual(1, parser.Traffic.Count(t => t.Item == null));
@@ -117,7 +118,7 @@ namespace CepgpParser.Parser.Tests
         public void CepgpLuaParser_ParseFile_record_entity_bad_value()
         {
             CepgpLuaParser parser = new CepgpLuaParser();
-            parser.ParseFile("CEPGP_record_entity_bad_value.lua");
+            parser.ParseFile("Lua/CEPGP_record_entity_bad_value.lua");
 
             Assert.AreEqual(1, parser.Records.Count);
             Assert.AreEqual(2, parser.Records[0].Entries.Count());
@@ -127,7 +128,7 @@ namespace CepgpParser.Parser.Tests
         public void CepgpLuaParser_ParseFile_alt_linking()
         {
             CepgpLuaParser parser = new CepgpLuaParser();
-            parser.ParseFile("CEPGP_alt_linking.lua");
+            parser.ParseFile("Lua/CEPGP_alt_linking.lua");
 
             Assert.AreEqual("Main", parser.Alt.Links.Keys.First());
             CollectionAssert.AreEqual(new List<string> { "Alt1", "Alt2" }, parser.Alt.Links["Main"]);
@@ -139,7 +140,7 @@ namespace CepgpParser.Parser.Tests
         [TestMethod]
         public async Task CepgpLuaParser_Parse_stream()
         {
-            using (FileStream file = new FileStream("CEPGP.lua", FileMode.Open, FileAccess.Read))
+            using (FileStream file = new FileStream("Lua/CEPGP.lua", FileMode.Open, FileAccess.Read))
             {
                 CepgpLuaParser parser = new CepgpLuaParser();
                 await parser.ParseAsync(file);
