@@ -1,11 +1,10 @@
+using CepgpParser.Parser.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Linq;
-using CepgpParser.Parser.Extensions;
-using System.IO;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using CepgpParser.Parser.Lua;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CepgpParser.Parser.Lua.Tests
 {

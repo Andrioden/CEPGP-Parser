@@ -1,13 +1,6 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
-using System.IO;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Numerics;
-using CepgpParser.Parser;
-using CepgpParser.Parser.Standings;
 using CepgpParser.Parser.Common;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace CepgpParser.Parser.Standings.Tests
 {

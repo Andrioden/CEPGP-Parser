@@ -1,15 +1,14 @@
-﻿using System;
-using System.Linq;
-using NLua;
-using System.Collections;
-using System.Collections.Generic;
+﻿using CepgpParser.Parser.Common;
 using CepgpParser.Parser.Extensions;
-using System.Text;
-using System.IO;
 using CepgpParser.Parser.Utils;
-using System.Threading.Tasks;
+using NLua;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
-using CepgpParser.Parser.Common;
+using System.Threading.Tasks;
 
 namespace CepgpParser.Parser.Lua
 {
