@@ -2,7 +2,7 @@
 
 namespace CepgpParser.Parser.Standings
 {
-    internal class CepgpStandingsRaw
+    public class CepgpStandingsRaw
     {
         /* List of 
             * [
