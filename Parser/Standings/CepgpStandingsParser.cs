@@ -63,7 +63,10 @@ namespace CepgpParser.Parser.Standings
         private CepgpStandingsPlayer ParsePlayer(List<object> rosterEntry)
         {
             if (rosterEntry.Count != 6)
+            {
                 AddLog(CepgpParserLogLevel.Error, $"Invalid roster entry: {rosterEntry.ToCsv()}");
+                return null;
+            }
 
             return new CepgpStandingsPlayer
             {
