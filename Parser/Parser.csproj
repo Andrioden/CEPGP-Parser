@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLua" Version="1.6.3" />
+    <PackageReference Include="NLua" Version="1.5.1" />
   </ItemGroup>
 
   <ItemGroup>
