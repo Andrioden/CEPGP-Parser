@@ -93,6 +93,19 @@ namespace CepgpParser.Parser.Lua.Tests
         }
 
         [TestMethod]
+        public void CepgpLuaParser_ParseFile_wrath()
+        {
+            CepgpLuaParser parser = new CepgpLuaParser();
+            parser.ParseFile("Lua/CEPGP_wrath.lua");
+
+            // Records
+            Assert.IsTrue(parser.Records.Count > 10);
+
+            // Traffic
+            Assert.IsTrue(parser.Traffic.Count > 100);
+        }
+
+        [TestMethod]
         public void CepgpLuaParser_ParseFile_old_file()
         {
             CepgpLuaParser parser = new CepgpLuaParser();
